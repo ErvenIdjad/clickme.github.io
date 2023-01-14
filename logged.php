@@ -17,14 +17,13 @@
 
 <body>
 
-<?php
+    <?php
 include_once('dbconfig.php');
 session_start();
 if (!isset($_SESSION['logged-in'])){
     header('location: index.php');
     exit;
 }
-
 
 $username = $_SESSION['username'];
 $query = "SELECT clickcounts FROM users WHERE username = '$username'";
@@ -36,10 +35,7 @@ if (isset($_GET['clicks'])) {
     $query = "UPDATE users SET clickcounts = $new_click_count WHERE username = '$username'";
     mysqli_query($conn, $query);
 }
-
-
 ?>
-
 
     <nav class="navbar navbar-expand-lg bg-body-light fixed-top">
         <div class="container-fluid">
@@ -53,7 +49,10 @@ if (isset($_GET['clicks'])) {
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="d-block" href="#" data-toggle="modal" data-target="#exampleModal">LEADERBOARDS</a>
+                        <a class="leaderboard-link d-block" href="#" data-toggle="modal" data-target="#exampleModal">LEADERBOARDS</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="achievement-link d-block" href="#" data-toggle="modal" data-target="#achievModal">Achivements</a>
                     </li>
                 </ul>
                 <form class="d-flex log" role="search">
@@ -63,7 +62,7 @@ if (isset($_GET['clicks'])) {
                         </span>
                         <ul class="dropdown-menu dropdown-menu-end">
                             <li>
-                            <a class="dropdown-item" href="logout.php"><span class="ml-2">Logout</span><i
+                                <a class="dropdown-item" href="logout.php"><span class="ml-2">Logout</span><i
                                         class="fas fa-sign-out-alt"></i></a>
                             </li>
                         </ul>
@@ -74,12 +73,14 @@ if (isset($_GET['clicks'])) {
     </nav>
 
     <h4 class="hcount">Highest Click Counts: <?php echo $current_click_count; ?></span></h4>
-    <div class="container">
+    <div class="container my-5">
         <div class="row">
-            <div class="col text-center">
-                <h2>Clicks Count:</h2>
-                <h1 id="clicks">0</h1>
-                <button class="btn" id="increment" onclick="clicked()">CLICK ME</button>
+            <div class="col-md-12">
+                <div class="col text-center">
+                    <h2>Clicks Count:</h2>
+                    <h1 id="clicks">0</h1>
+                    <button class="btn" id="increment" onclick="clicked()">CLICK ME</button>
+                </div>
             </div>
         </div>
     </div>
@@ -97,6 +98,7 @@ if (isset($_GET['clicks'])) {
     </script>
 
     <?php include_once('leaderboard_modal.php') ?>
+    <?php include_once('achiev.php') ?>
 
     <script src="app.js"></script>
 </body>
